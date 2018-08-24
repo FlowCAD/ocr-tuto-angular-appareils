@@ -14,10 +14,11 @@ import { FourOhFourComponent } from './four-oh-four/four-oh-four.component';
 
 import { AppareilService } from './services/appareil.service';
 import { AuthService } from './services/auth.service';
+import { AuthGuard } from './services/auth-guard.service';
 
 const appRoutes: Routes = [
-  {path: 'appareils', component: AppareilViewComponent},
-  {path: 'appareils/:id', component: SingleAppareilComponent},
+  {path: 'appareils', canActivate: [AuthGuard], component: AppareilViewComponent},
+  {path: 'appareils/:id', canActivate: [AuthGuard], component: SingleAppareilComponent},
   {path: 'auth', component: AuthComponent},
   {path: '', component: AppareilViewComponent},
   {path: 'not-found', component: FourOhFourComponent},
@@ -39,7 +40,7 @@ const appRoutes: Routes = [
     FormsModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [AppareilService, AuthService],
+  providers: [AppareilService, AuthService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
